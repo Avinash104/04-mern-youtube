@@ -5,7 +5,6 @@ import User from "../models/User.js"
 export const signupUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body
-    console.log(name, email, password)
     const salt = await bcrypt.genSalt()
     const passwordHash = await bcrypt.hash(password, salt)
 

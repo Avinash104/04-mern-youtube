@@ -4,6 +4,7 @@ import express from "express"
 import mongoose from "mongoose"
 import authRouter from "./routes/auth.js"
 import userRouter from "./routes/users.js"
+import videoRouter from "./routes/video.js"
 
 dotenv.config()
 
@@ -14,7 +15,7 @@ app.use(express.json())
 /** Routes */
 app.use("/api/auth", authRouter)
 app.use("/api/users", userRouter)
-// app.use("/api/videos", userRouter)
+app.use("/api/videos", videoRouter)
 // app.use("/api/comments", userRouter)
 
 app.use((err, req, res, next) => {

@@ -32,6 +32,7 @@ const deleteUser = async (req, res, next) => {
     next(err)
   }
 }
+
 const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)
@@ -42,6 +43,7 @@ const getUser = async (req, res, next) => {
     next(err)
   }
 }
+
 const subscribe = async (req, res, next) => {
   console.log(req.params)
   console.log(req.user.id)
@@ -56,6 +58,7 @@ const subscribe = async (req, res, next) => {
     next(err)
   }
 }
+
 const unsubscribe = async (req, res) => {
   try {
     await User.findByIdAndUpdate(req.user.id, {
@@ -68,11 +71,32 @@ const unsubscribe = async (req, res) => {
     next(err)
   }
 }
+
 const like = async (req, res) => {
-  console.log(req.body)
+  const id = req.user.id
+  const videoId = req.params.videoId
+  try {
+    await Video.findByIdAndUpdate(videoId, {
+      $addToSet: { likes: id },
+      $pull: { dislikes: id },
+    })
+    res.status(200).json("The video has been liked.")
+  } catch (err) {
+    next(err)
+  }
 }
 const dislike = async (req, res) => {
-  console.log(req.body)
+  const id = req.user.id
+  const videoId = req.params.videoId
+  try {
+    await Video.findByIdAndUpdate(videoId, {
+      $addToSet: { dislikes: id },
+      $pull: { likes: id },
+    })
+    res.status(200).json("The video has been disliked.")
+  } catch (err) {
+    next(err)
+  }
 }
 
 export {
